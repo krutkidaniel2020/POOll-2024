@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pasos</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
+</head>
+
+<body>
+    <div class="container-fluid">
+
+        <h3 class="display-3">Nuevo paso</h3>
+
+        <form th:action="@{/temas/{id}/pasos(id=${tema.idTema})}" th:object="${paso}" th:method="post">
+            <div class="row">
+                <div class="col mb-3">
+                    <label><strong>Id</strong></label>
+                    <label for="idTema" th:text="${tema.idTema}" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label><strong>Fecha inicio</strong></label>
+                    <label for="fechaInicio" th:text="${tema.fechaInicio}" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label><strong>Descripción</strong></label>
+                    <label for="descripcion" th:text="${tema.descripcion}" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label><strong>Persona</strong></label>
+                    <label for="persona" th:text="|${tema.persona.apellidos} ${tema.persona.nombres}|" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="nombres">Descripción</label>
+                    <textarea rows="5" class="form-control" id="descripcion" placeholder="Descripción del paso" value=""
+                        th:field="*{descripcion}"/>
+                    <small th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">Error en descripción</small>
+                </div>
+                <input type="hidden" th:field="*{tema}" id="tema">
+                <div class="col mb-3">
+                    <label>Tipo</label>
+                    <select class="form-select" id="tipo" th:field="*{tipo}">
+                        <option th:each="tipo : ${T(edu.unam.departamento.modelo.Tipo).values()}" 
+                            th:value="${tipo}" th:text="${tipo}"></option>
+                    </select>
+                    <small th:if="${#fields.hasErrors('tipo')}" th:errors="*{tipo}">Error en tipo</small>
+                </div>    
+            </div>
+            <button class="btn btn-primary" type="submit">Guardar</button>
+        </form>
+        <p></p>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item"><a th:href=@{/temas/{id}/ver(id=${tema.idTema})}>Anterior</a></li>
+            <li class="list-group-item"><a href="/">Inicio</a></li>
+        </ul>
+    </div>
+
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>

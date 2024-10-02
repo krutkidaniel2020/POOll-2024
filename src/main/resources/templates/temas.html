@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Temas</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h3 class="display-3">Lista de temas</h3>
+
+        <form th:action="@{/temas/crear}" th:method="get">                    
+            <button class="btn btn-primary">Agregar</button>
+        </form>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Fecha inicio</th>
+                    <th scope="col">Iniciado por</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="tema : ${temas}">
+                    <td th:text="${tema.idTema}"></td>
+                    <td th:text="${#temporals.format(tema.fechaInicio, 'dd-MM-yyyy')}"></td>
+                    <td th:text="|${tema.persona.apellidos} ${tema.persona.nombres}|"></td>
+                    <td th:text="${tema.descripcion}"></td>
+                    <td th:text="${tema.estado}"></td>
+                    <td> 
+                        <form th:action="@{/temas/{id}/ver(id=${tema.idTema})}" th:method="get">
+                            <div th:if="${tema.fechaCierre} == null">                    
+                                <button class="btn btn-success">Editar</button>
+                            </div>
+                            <div th:if="${tema.fechaCierre} != null">                    
+                                <button class="btn btn-success">Ver</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item"><a href="/">Inicio</a></li>
+        </ul>
+    </div>
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>

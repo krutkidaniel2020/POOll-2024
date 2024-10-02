@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tema</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div th:if="${tema.fechaCierre} == null">
+            <h3 class="display-3">Actualizar tema</h3>
+        </div>
+        <div th:if="${tema.fechaCierre} != null">
+            <h3 class="display-3">Ver tema</h3>
+        </div>
+
+
+        <form th:action="@{/temas/{id}/ver(id=${tema.idTema})}" th:object="${tema}" th:method="put">
+            <div class="row">
+                <div class="col mb-3">
+                    <label><strong>Id</strong></label>
+                    <label for="idTemaTexto" th:text="${tema.idTema}" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label><strong>Fecha inicio</strong></label>
+                    <label for="fechaInicioTexto" th:text="${tema.fechaInicio}" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label><strong>Descripción</strong></label>
+                    <label for="descripcionTexto" th:text="${tema.descripcion}" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label><strong>Persona</strong></label>
+                    <label for="personaTexto" th:text="|${tema.persona.apellidos} ${tema.persona.nombres}|"></label>
+                </div>
+            </div>
+            <input type="hidden" th:field="*{descripcion}" id="descripcion">
+            <input type="hidden" th:field="*{fechaInicio}" id="fechaInicio">
+            <input type="hidden" th:field="*{persona}" id="persona">
+            <input type="hidden" th:field="*{estado}" id="estado">
+            <div th:if="${tema.fechaCierre} == null">
+                <button class="btn btn-danger" type="submit">Cerrar</button>
+            </div>
+        </form>
+        <p></p>
+        <div th:if="${tema.fechaCierre} == null">
+            <form th:action="@{/temas/{id}/pasos(id=${tema.idTema})}" th:method="get">
+                <button class="btn btn-primary">Agregar paso</button>
+            </form>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Id Paso</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Tipo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="paso : ${tema.pasos}">
+                    <td th:text="${paso.idPaso}"></td>
+                    <td th:text="${paso.fecha}"></td>
+                    <td th:text="${paso.descripcion}"></td>
+                    <td th:text="${paso.tipo}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item"><a href="/temas">Temas</a></li>
+            <li class="list-group-item"><a href="/">Inicio</a></li>
+        </ul>
+    </div>
+
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>

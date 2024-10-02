@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Temas</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h3 class="display-3">Nuevo tema</h3>
+
+        <form th:action="@{/temas}" th:object="${tema}" th:method="post">
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="nombres">Descripción</label>
+                    <textarea rows="5" class="form-control" id="descripcion" placeholder="Descripción del tema" value=""
+                        th:field="*{descripcion}"/>
+                    <small th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">Error en descripción</small>
+                </div>
+                <div class="col mb-3">
+                    <label>Persona</label>
+                    <select class="form-select" id="persona" th:field="*{persona}">
+                        <option value="">Seleccionar persona...</option>
+                        <option th:each="persona : ${personas}" th:value="${persona.idPersona}" th:text="|${persona.apellidos} ${persona.nombres}|"></option>
+                    </select>
+                    <small th:if="${#fields.hasErrors('persona')}" th:errors="*{persona}">Error en persona</small>
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Guardar</button>
+        </form>
+        <p></p>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item"><a href="/temas">Temas</a></li>
+            <li class="list-group-item"><a href="/">Inicio</a></li>
+        </ul>
+    </div>
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
